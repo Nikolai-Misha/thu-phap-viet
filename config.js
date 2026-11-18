@@ -5,6 +5,6 @@
  */
 
 window.THU_PHAP_CONFIG = Object.freeze({
-  supabaseUrl: 'https://kgmgxfrwgnntnrpjqrb.supabase.co',
+  supabaseUrl: 'https://kmgmxfrwgnntnrfpjqrb.supabase.co',
   supabasePublishableKey: 'sb_publishable_ffogPK2saGUY6TyltgUyeQ_NmuyP6Di'
 });
