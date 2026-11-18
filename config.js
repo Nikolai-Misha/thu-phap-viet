@@ -1,11 +1,10 @@
 /*
  * CẤU HÌNH CÔNG KHAI CHO GIAO DIỆN.
- * Hai giá trị dưới đây được phép xuất hiện ở frontend:
- * - Project URL
- * - Publishable key (sb_publishable_...) hoặc legacy anon key
- * TUYỆT ĐỐI KHÔNG điền secret key / service_role key / mật khẩu Admin vào file này.
+ * Chỉ chứa Project URL và Publishable key.
+ * Không chứa Secret key, service_role hoặc mật khẩu.
  */
+
 window.THU_PHAP_CONFIG = Object.freeze({
-  supabaseUrl: 'https://YOUR_PROJECT_REF.supabase.co',
-  supabasePublishableKey: 'YOUR_SUPABASE_PUBLISHABLE_KEY'
+  supabaseUrl: 'https://kgmgxfrwgnntnrpjqrb.supabase.co',
+  supabasePublishableKey: 'sb_publishable_ffogPK2saGUY6TyltgUyeQ_NmuyP6Di'
 });
