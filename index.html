@@ -839,6 +839,130 @@ footer{padding:34px var(--page-gutter);font-size:.86rem;font-weight:550;color:va
   .card:hover .card-media img,.card:hover .card-media video{transform:none}
 }
 
+
+
+/* =========================================================
+   RESPONSIVE REFINEMENT — mobile-first overrides
+   Fixes narrow-header grid collision, hero and stat wrapping.
+   ========================================================= */
+*,*::before,*::after{box-sizing:border-box}
+html,body{max-width:100%;overflow-x:clip}
+img,video,canvas,svg{max-width:100%}
+.logo,.logo-copy,.hero-text,.header-actions,.search-wrap,.gallery-grid,.card{min-width:0}
+.hero{min-width:0}
+.hero-title,.hero-sub,.logo-text,.logo-sub,.card-title,.card-desc{overflow-wrap:anywhere}
+
+@media (max-width:700px){
+  html{scroll-padding-top:150px}
+  .site-header{padding-inline:clamp(10px,3.2vw,18px)}
+  .header-inner{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-rows:auto auto auto;
+    align-items:center;
+    column-gap:12px;
+    row-gap:10px;
+    height:auto;
+    min-height:0;
+    padding:12px 0 14px;
+  }
+  .header-inner>.logo{
+    grid-column:1;grid-row:1;
+    display:flex;align-items:center;gap:9px;
+    min-width:0;width:100%;
+  }
+  .logo-icon{flex:0 0 40px;width:40px;height:40px;border-radius:13px}
+  .logo-copy{flex:1;min-width:0;gap:2px}
+  .logo-text{font-size:clamp(1rem,4.4vw,1.22rem);line-height:1.12;white-space:nowrap;overflow-wrap:normal}
+  .logo-sub{font-size:clamp(.62rem,2.8vw,.74rem);line-height:1.25;white-space:normal}
+  .header-inner>.header-actions{display:contents}
+  .header-actions>.search-wrap{
+    grid-column:1 / -1;grid-row:2;
+    display:block;width:100%;max-width:none;min-width:0;
+  }
+  .header-actions .search-input{width:100%;height:44px;padding-inline:14px 42px;font-size:16px}
+  .header-actions>.account-wrap{
+    grid-column:2;grid-row:1;
+    justify-self:end;align-self:center;
+  }
+  .avatar-trigger{width:42px;height:42px;border-radius:13px}
+  .clock-widget{
+    grid-column:1 / -1;grid-row:3;
+    position:static;transform:none;
+    display:flex;width:100%;min-width:0;
+    align-items:center;justify-content:center;
+    padding:2px 0 0;text-align:center;
+  }
+  .clock-time{font-size:clamp(1.08rem,4.8vw,1.3rem)}
+  .clock-date,.clock-lunar{font-size:clamp(.66rem,2.8vw,.74rem);line-height:1.3}
+
+  .hero{
+    display:grid;grid-template-columns:minmax(0,1fr);
+    align-items:start;gap:18px;
+    padding:clamp(22px,6vw,34px) clamp(14px,4.5vw,22px) 24px;
+  }
+  .hero-text{width:100%;max-width:none}
+  .hero-eyebrow{max-width:100%;white-space:normal;flex-wrap:wrap;line-height:1.4;font-size:.78rem;padding:7px 12px}
+  .hero-title{font-size:clamp(2rem,8.6vw,3rem);line-height:1.06;letter-spacing:-.045em}
+  .hero-sub{max-width:62ch;font-size:clamp(.94rem,3.8vw,1.05rem);line-height:1.58}
+  .hero-art{
+    display:grid;width:clamp(84px,25vw,112px);height:clamp(84px,25vw,112px);
+    margin:2px auto 0;border-radius:22px;font-size:clamp(2.5rem,10vw,3.3rem);
+  }
+  .hero-stats{
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:10px;margin-top:22px;width:100%;
+  }
+  .hero-stats .stat{min-width:0;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px}
+  .stat-num{font-size:clamp(1.45rem,6vw,1.85rem)}
+  .stat-label{font-size:clamp(.68rem,2.8vw,.82rem);white-space:nowrap}
+  .filter-bar{display:flex;flex-wrap:wrap;gap:8px;padding:16px clamp(14px,4.5vw,22px)}
+  .chip{min-height:36px;padding:7px 12px;font-size:.8rem}
+  .gallery-section{padding:6px clamp(14px,4.5vw,22px) 36px}
+  .section-title{font-size:clamp(1.2rem,5vw,1.5rem);margin-bottom:16px}
+  .gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(9px,2.8vw,14px)}
+  .card{min-width:0;border-radius:14px}
+  .card-media{aspect-ratio:4/4.8}
+  .card-body{padding:10px}
+  .card-title{font-size:clamp(.78rem,3.3vw,.9rem);line-height:1.35}
+  .card-desc{font-size:clamp(.7rem,2.9vw,.78rem)}
+  .card-date{font-size:.68rem}
+  .contact-dock{right:max(10px,env(safe-area-inset-right));bottom:calc(12px + env(safe-area-inset-bottom));gap:7px}
+  .contact-tile{width:40px;height:40px}
+}
+
+@media (max-width:360px){
+  .header-inner{column-gap:8px;row-gap:9px}
+  .logo-icon{flex-basis:36px;width:36px;height:36px}
+  .logo-text{font-size:1rem}
+  .logo-sub{font-size:.61rem}
+  .avatar-trigger{width:39px;height:39px}
+  .hero{padding-inline:13px}
+  .hero-art{display:grid}
+  .gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .card-body{padding:8px}
+  .card-title{font-size:.76rem}
+  .stat-label{font-size:.66rem}
+}
+
+@media (min-width:701px) and (max-width:900px){
+  .header-inner{grid-template-columns:minmax(170px,1fr) minmax(170px,.9fr) minmax(190px,1fr);gap:10px}
+  .logo{min-width:0;gap:9px}
+  .logo-text{font-size:1.15rem}
+  .logo-sub{font-size:.68rem}
+  .header-actions{min-width:0;gap:8px}
+  .header-actions .search-wrap{width:100%;max-width:220px}
+  .search-input{font-size:.82rem;padding-left:12px}
+  .clock-widget{min-width:0}
+  .clock-date,.clock-lunar{font-size:.66rem}
+  .hero{gap:22px}
+  .hero-art{margin-right:clamp(0px,3vw,28px)}
+}
+
+@media (min-width:1200px){
+  .hero{display:flex}
+}
+
 </style>
 </head>
 <body class="season-spring">
