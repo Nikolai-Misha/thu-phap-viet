@@ -1520,10 +1520,23 @@ function spawnDecos(emojis){
 // SEARCH (normalize diacritics)
 // ═══════════════════════════════════════
 function normalizeVi(str){
-  return str.normalize('NFD')
+  return String(str || '').normalize('NFD')
     .replace(/[\u0300-\u036f]/g,'')
     .replace(/đ/g,'d').replace(/Đ/g,'D')
     .toLowerCase().trim();
+}
+
+// Match complete words, not arbitrary character fragments inside other words.
+// Accents are ignored, and every search term must occur as a whole word.
+function matchesArtworkSearch(item, query){
+  const terms = normalizeVi(query).split(/[^a-z0-9]+/).filter(Boolean);
+  if(!terms.length) return true;
+
+  const searchableText = normalizeVi(
+    [item.title, item.desc].filter(Boolean).join(' ')
+  );
+  const words = searchableText.split(/[^a-z0-9]+/).filter(Boolean);
+  return terms.every(term => words.includes(term));
 }
 
 document.getElementById('searchInput').addEventListener('input', function(){
@@ -1959,7 +1972,7 @@ function renderGallery(){
       if(currentFilter==='video' && !ml.some(m=>m.type==='video')) return false;
     }
     if(!q) return true;
-    return normalizeVi(String(item.title||'')).includes(q)||normalizeVi(String(item.desc||'')).includes(q);
+    return matchesArtworkSearch(item, q);
   });
   visibleItems = filtered;
 
