@@ -6,7 +6,7 @@
 <title>Thư Pháp Việt</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;700&family=Google+Sans+Display:wght@400;500;700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0,0&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@8..144,100..1000&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0,0&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════
    TOKEN SYSTEM — tất cả màu qua biến, không hard-code
@@ -76,8 +76,8 @@
   /* Radius & font */
   --radius-card: 20px;
   --radius-btn:  50px;
-  --font-main:    'Google Sans', 'Segoe UI', sans-serif;
-  --font-display: 'Google Sans Display', 'Google Sans', sans-serif;
+  --font-main:    'Google Sans Flex', 'Google Sans', 'Segoe UI', sans-serif;
+  --font-display: 'Google Sans Flex', 'Google Sans', 'Segoe UI', sans-serif;
   --transition:   0.35s cubic-bezier(.4,0,.2,1);
 }
 
@@ -408,7 +408,6 @@ header{
 .clock-date{font-size:.78rem;color:var(--clock-date)}
 .clock-lunar{font-size:.74rem;color:var(--color-accent1);font-weight:500}
 
-.header-mid{flex:1;display:flex;justify-content:center}
 
 /* Search */
 .search-wrap{position:relative;width:100%;max-width:420px}
@@ -426,7 +425,6 @@ header{
 .search-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none;font-size:1.1rem}
 .search-input::placeholder{color:var(--text-faint)}
 
-.header-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
 
 /* Buttons */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:var(--radius-btn);border:none;font-family:var(--font-main);font-size:.88rem;font-weight:500;cursor:pointer;transition:all var(--transition);text-decoration:none}
@@ -436,14 +434,6 @@ header{
 .btn-tonal:hover{background:var(--color-accent2);transform:translateY(-1px)}
 
 /* Login pill */
-.user-pill{
-  display:flex;align-items:center;gap:8px;
-  background:var(--bg-surface-alt);color:var(--text-primary);
-  padding:8px 16px;border-radius:50px;cursor:pointer;
-  font-size:.85rem;font-weight:500;border:none;
-  transition:all var(--transition);font-family:var(--font-main);
-}
-.user-pill:hover{background:var(--color-accent2);color:var(--color-primary)}
 .user-avatar{width:28px;height:28px;border-radius:50%;background:var(--color-primary);color:var(--color-on-primary);display:grid;place-items:center;font-size:.8rem;font-weight:700}
 
 /* ── HERO ── */
@@ -485,11 +475,7 @@ header{
 .card-media img,.card-media video{width:100%;height:100%;object-fit:cover;transition:transform 0.5s cubic-bezier(.4,0,.2,1);display:block}
 .card:hover .card-media img,.card:hover .card-media video{transform:scale(1.08)}
 .card-badge{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.60);backdrop-filter:blur(6px);color:#fff;font-size:.7rem;padding:4px 10px;border-radius:50px;display:flex;align-items:center;gap:4px}
-.card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.60) 0%,transparent 55%);opacity:0;transition:opacity var(--transition);display:grid;place-items:end start;padding:16px}
-.card:hover .card-overlay{opacity:1}
-.card-overlay-btn{background:rgba(255,255,255,.92);backdrop-filter:blur(6px);color:var(--color-primary);border:none;border-radius:50px;padding:8px 18px;font-family:var(--font-main);font-size:.8rem;font-weight:500;cursor:pointer;transition:all var(--transition)}
-.card-overlay-btn:hover{background:#fff;transform:scale(1.05)}
-.card-body{padding:14px 16px 16px;background:var(--bg-surface)}
+.card:hover .card-body{padding:14px 16px 16px;background:var(--bg-surface)}
 .card-title{font-weight:600;font-size:.95rem;margin-bottom:4px;line-height:1.3;color:var(--text-primary)}
 .card-desc{font-size:.78rem;color:var(--text-muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .card-meta{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--bg-surface-alt)}
@@ -582,7 +568,6 @@ footer{text-align:center;padding:32px 24px;color:var(--text-muted);font-size:.8r
 .admin-card-edit{background:var(--bg-surface-alt);color:var(--color-primary)}
 .admin-card-delete{background:var(--tag-img-bg);color:var(--tag-img-text)}
 .user-avatar .material-symbols-rounded{font-size:19px;line-height:1}
-.header-right{min-width:0}
 .logo{min-width:0}
 
 /* ── RESPONSIVE LAYOUT ── */
@@ -590,9 +575,7 @@ footer{text-align:center;padding:32px 24px;color:var(--text-muted);font-size:.8r
   header{padding:0 18px}
   .header-inner{height:auto;min-height:68px;padding:10px 0;gap:10px}
   .clock-widget{display:none}
-  .header-right{order:1;margin-left:auto;gap:8px}
-  .header-mid{order:2;flex:0 0 100%;max-width:none}
-  .search-wrap{max-width:none}
+    .search-wrap{max-width:none}
   .search-input{height:44px}
   .hero{padding:26px 18px 22px;gap:18px}
   .hero-art{width:104px;height:104px;font-size:3.2rem}
@@ -615,8 +598,7 @@ footer{text-align:center;padding:32px 24px;color:var(--text-muted);font-size:.8r
   .logo-icon{width:36px;height:36px;border-radius:10px;font-size:18px}
   .logo-text{font-size:1.02rem}
   .logo-sub{font-size:.62rem}
-  .user-pill{padding:6px 10px;gap:6px;font-size:.78rem}
-  .user-avatar{width:26px;height:26px}
+    .user-avatar{width:26px;height:26px}
   .hero{padding:22px 14px 18px;gap:12px}
   .hero-text{min-width:0}
   .hero-art{width:76px;height:76px;border-radius:18px;font-size:2.5rem}
@@ -655,9 +637,7 @@ footer{text-align:center;padding:32px 24px;color:var(--text-muted);font-size:.8r
 @media(max-width:360px){
   .logo-sub{display:none}
   .logo-text{font-size:.92rem}
-  .header-right{gap:6px}
-  .user-pill{padding:5px 8px}
-  .hero-art{display:none}
+    .hero-art{display:none}
   .gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   .card-body{padding:9px}
   .card-media{aspect-ratio:3/4}
@@ -665,7 +645,196 @@ footer{text-align:center;padding:32px 24px;color:var(--text-muted);font-size:.8r
   .date-seg{font-size:.88rem}
 }
 @media(hover:none){
-  .card-overlay{opacity:1;background:linear-gradient(to top,rgba(0,0,0,.34),transparent 45%)}
+    .card:hover{transform:none}
+  .card:hover .card-media img,.card:hover .card-media video{transform:none}
+}
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   CATALOGUE-INSPIRED REDESIGN — Material You + Google Sans Flex
+   ═══════════════════════════════════════════════════════════════ */
+:root{
+  --text-secondary:#51483f;
+  --text-muted:#685d53;
+  --text-faint:#74685e;
+  --chip-text:#51483f;
+  --clock-date:#51483f;
+  --lb-date-color:#65594f;
+  --field-label:#51483f;
+  --login-info-text:#51483f;
+  --page-gutter:clamp(18px,3.4vw,64px);
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --text-secondary:#d1c3b7;
+    --text-muted:#b8a99b;
+    --text-faint:#a59688;
+    --chip-text:#d1c3b7;
+    --clock-date:#d1c3b7;
+    --lb-date-color:#b8a99b;
+    --field-label:#d1c3b7;
+    --login-info-text:#d1c3b7;
+  }
+}
+html{scroll-padding-top:150px}
+body{font-family:var(--font-main);letter-spacing:-.01em}
+/* Hide scrollbar visuals without disabling page scrolling */
+html,body{scrollbar-width:none;-ms-overflow-style:none}
+html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
+
+.site-header{
+  padding:0 var(--page-gutter);
+  border-bottom:0;
+  box-shadow:none;
+}
+.header-inner{
+  position:relative;width:100%;max-width:none;height:82px;gap:28px;
+  justify-content:space-between;flex-wrap:nowrap;
+}
+.logo{gap:13px;min-width:245px}
+.logo-icon{width:48px;height:48px;border-radius:15px;font-size:22px}
+.logo-copy{display:flex;flex-direction:column;gap:2px}
+.logo-text{font-size:1.42rem;line-height:1.1;font-weight:750;letter-spacing:-.045em}
+.logo-sub{font-size:.78rem;line-height:1.3;margin-top:2px;color:var(--text-secondary);font-weight:550;letter-spacing:0}
+.header-actions{display:flex;align-items:center;justify-content:flex-end;gap:14px;min-width:0;flex:1}
+.header-actions .search-wrap{max-width:440px;width:min(42vw,440px)}
+.search-input{height:48px;border-radius:15px;padding-left:18px;background:var(--bg-surface-alt);font-size:.95rem;font-weight:500}
+.search-icon{right:16px;color:var(--text-secondary);font-size:1.2rem}
+.primary-nav{
+  position:relative;display:flex;align-items:center;justify-content:space-between;
+  width:100%;max-width:none;min-height:64px;margin:0 auto;gap:20px;
+  border-top:1px solid color-mix(in srgb,var(--color-outline) 58%,transparent);
+}
+.nav-links{display:flex;align-items:center;gap:8px;min-width:245px}
+.nav-link{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border-radius:999px;text-decoration:none;
+  color:var(--text-secondary);font-size:.88rem;font-weight:650;transition:background var(--transition),color var(--transition)}
+.nav-link:hover,.nav-link.active{background:var(--bg-surface-alt);color:var(--color-primary)}
+.nav-caption{min-width:245px;text-align:right;color:var(--text-muted);font-size:.78rem;font-weight:550}
+.clock-widget{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0;
+  min-width:250px;text-align:center;line-height:1.2;z-index:2;
+  pointer-events:none;
+}
+.clock-time{font-size:1.35rem;font-weight:720;letter-spacing:.035em;line-height:1.15}
+.clock-date{font-size:.73rem;color:var(--clock-date);font-weight:600;margin-top:3px}
+.clock-lunar{font-size:.72rem;color:var(--color-accent1);font-weight:700;margin-top:2px}
+.account-wrap{position:relative;display:flex;align-items:center;flex-shrink:0}
+.avatar-trigger{width:48px;height:48px;border:1px solid var(--color-outline);border-radius:16px;background:var(--bg-surface-alt);display:grid;place-items:center;cursor:pointer;transition:all var(--transition)}
+.avatar-trigger:hover,.account-wrap.open .avatar-trigger{background:var(--color-primary-dim);border-color:var(--color-accent1);box-shadow:0 3px 12px var(--color-shadow)}
+.avatar-trigger .user-avatar{width:34px;height:34px;font-size:1rem}
+.avatar-trigger .user-avatar .material-symbols-rounded{font-size:21px}
+.account-menu{position:absolute;right:0;top:calc(100% + 13px);z-index:500;width:248px;padding:14px;border:1px solid var(--color-outline);
+  border-radius:18px;background:var(--bg-modal);box-shadow:0 14px 38px var(--color-shadow-lg);
+  opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .18s ease,transform .18s ease,visibility .18s;}
+.account-menu::before{content:"";position:absolute;right:16px;top:-7px;width:12px;height:12px;transform:rotate(45deg);background:var(--bg-modal);border-left:1px solid var(--color-outline);border-top:1px solid var(--color-outline)}
+.account-wrap:hover .account-menu,.account-wrap:focus-within .account-menu,.account-wrap.open .account-menu{opacity:1;visibility:visible;transform:translateY(0)}
+.account-menu-heading{font-size:.96rem;font-weight:750;color:var(--text-primary)}
+.account-menu-caption{font-size:.76rem;font-weight:550;color:var(--text-muted);margin:3px 0 12px}
+.account-menu-action{width:100%;display:flex;align-items:center;gap:10px;padding:11px 12px;border:0;border-radius:12px;background:var(--bg-surface-alt);color:var(--color-primary);
+  font:700 .86rem var(--font-main);text-align:left;cursor:pointer;transition:background var(--transition),transform var(--transition)}
+.account-menu-action:hover{background:var(--color-primary-dim);transform:translateY(-1px)}
+.account-menu-action .material-symbols-rounded{font-size:19px}
+.hero{width:100%;max-width:none;margin:0;padding:clamp(34px,4.5vw,72px) var(--page-gutter) clamp(30px,3.7vw,56px);gap:42px;
+  background:linear-gradient(115deg,var(--bg-surface-alt),var(--bg-page) 68%);border-bottom:0;justify-content:space-between}
+.hero-text{max-width:850px}
+.hero-eyebrow{font-weight:700;color:var(--color-primary);font-size:.84rem;padding:8px 16px}
+.hero-title{font-size:clamp(2.35rem,4.6vw,4.3rem);line-height:1.04;letter-spacing:-.055em;margin-bottom:16px}
+.hero-sub{max-width:670px;font-size:1.08rem;line-height:1.7;color:var(--text-secondary);font-weight:500}
+.hero-stats{gap:clamp(22px,3vw,46px);margin-top:30px}
+.stat{text-align:left;min-width:90px}
+.stat-num{font-size:1.8rem;line-height:1.1}
+.stat-label{font-size:.8rem;font-weight:650;color:var(--text-secondary)}
+.hero-art{width:clamp(120px,13vw,184px);height:clamp(120px,13vw,184px);border-radius:30px;font-size:clamp(3.5rem,6vw,5.6rem);margin-right:clamp(5vw,11vw,190px)}
+.filter-bar{max-width:none;width:100%;padding:24px var(--page-gutter) 22px;gap:10px}
+.chip{min-height:40px;padding:8px 18px;font-size:.88rem;font-weight:650;color:var(--chip-text);background:var(--bg-surface);border-color:var(--color-outline)}
+.chip.active,.chip:hover{font-weight:750}
+.gallery-section{width:100%;max-width:none;margin:0;padding:8px var(--page-gutter) clamp(48px,6vw,88px)}
+.section-title{font-size:clamp(1.35rem,2vw,1.7rem);font-weight:750;letter-spacing:-.03em;margin-bottom:24px}
+.gallery-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:clamp(14px,1.5vw,24px)}
+.card{border-radius:18px;box-shadow:0 2px 12px var(--color-shadow);border-color:var(--color-outline)}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 30px var(--color-shadow-lg)}
+.card-media{aspect-ratio:4/4.6;background:var(--bg-surface-alt)}
+.card:hover .card-media img,.card:hover .card-media video{transform:scale(1.035)}
+.card-body{padding:16px 17px 18px}
+.card-title{font-size:1rem;font-weight:750;line-height:1.35;letter-spacing:-.02em}
+.card-desc{font-size:.86rem;line-height:1.55;color:var(--text-secondary);font-weight:500}
+.card-date{font-size:.78rem;color:var(--text-muted);font-weight:600}
+.card-type{font-size:.75rem;font-weight:700}
+.card-badge{font-size:.75rem;font-weight:650;padding:5px 11px}
+.empty{color:var(--text-secondary)}
+.empty p{font-weight:600}
+.setup-notice{max-width:none;width:calc(100% - 2 * var(--page-gutter));margin:14px var(--page-gutter) 0;font-weight:600}
+footer{padding:34px var(--page-gutter);font-size:.86rem;font-weight:550;color:var(--text-secondary)}
+.contact-dock{position:fixed;right:22px;bottom:24px;z-index:220;display:flex;flex-direction:column;gap:9px}
+.contact-tile{width:44px;height:44px;display:grid;place-items:center;border-radius:11px;text-decoration:none;
+  box-shadow:0 5px 17px var(--color-shadow-lg);border:1px solid rgba(255,255,255,.55);transition:transform var(--transition),box-shadow var(--transition),filter var(--transition)}
+.contact-tile:hover{transform:translateY(-3px);box-shadow:0 9px 24px var(--color-shadow-lg);filter:brightness(1.06)}
+.contact-facebook{background:#1877f2;color:#fff}
+.contact-facebook-mark{font-family:Arial,sans-serif;font-size:2rem;font-weight:800;line-height:1;transform:translateY(4px)}
+.contact-gmail{background:#fff;color:#c5221f}
+.contact-gmail .material-symbols-rounded{font-size:24px}
+.admin-fab{right:22px;bottom:calc(24px + 2 * 44px + 9px + 12px);width:52px;height:52px;border-radius:15px}
+.toast{font-weight:600}
+.modal-title{font-weight:800}
+.field label{font-size:.86rem;font-weight:700}
+.field input,.field textarea,.field select{font-weight:550}
+.login-info{font-size:.84rem;font-weight:600}
+
+@media(max-width:900px){
+  .header-inner{display:grid;grid-template-columns:auto minmax(180px,1fr) auto;gap:14px}
+  .logo{min-width:0}
+  .clock-widget{position:static;transform:none;min-width:0;width:100%;grid-column:2;grid-row:1}
+  .header-actions{grid-column:3;grid-row:1;flex:initial;padding-left:0;gap:9px}
+  .header-actions .search-wrap{width:min(25vw,250px)}
+  .avatar-trigger{width:44px;height:44px}
+}
+@media(max-width:700px){
+  html{scroll-padding-top:190px}
+  .site-header{padding:0 16px}
+  .header-inner{height:auto;min-height:72px;padding:12px 0;flex-wrap:wrap;row-gap:12px}
+  .logo{min-width:0;flex:1}
+  .logo-icon{width:42px;height:42px}
+  .logo-text{font-size:1.23rem}
+  .logo-sub{font-size:.72rem}
+  .clock-widget{position:static;transform:none;order:2;flex:0 0 100%;min-width:0;width:100%;padding:0 0 2px}
+  .header-actions{flex:0 0 100%;width:100%;order:3;gap:10px}
+  .header-actions .search-wrap{width:auto;max-width:none;flex:1}
+  .search-input{height:44px}
+  .avatar-trigger{width:44px;height:44px;border-radius:14px}
+  .clock-time{font-size:1.12rem}
+  .clock-date,.clock-lunar{font-size:.69rem}
+  .hero{padding:30px 18px 28px;gap:18px}
+  .hero-title{font-size:clamp(2rem,8vw,3rem)}
+  .hero-sub{font-size:.94rem}
+  .hero-art{width:92px;height:92px;border-radius:22px;font-size:2.7rem}
+  .filter-bar{padding:18px 18px 17px}
+  .gallery-section{padding:5px 18px 42px}
+  .gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+  .card-body{padding:12px}
+  .card-title{font-size:.88rem}
+  .card-desc{font-size:.77rem}
+  .card-date{font-size:.7rem}
+  .card-meta{flex-direction:column;align-items:flex-start;gap:7px}
+  .contact-dock{right:14px;bottom:calc(14px + env(safe-area-inset-bottom));gap:7px}
+  .contact-tile{width:40px;height:40px;border-radius:10px}
+  .admin-fab{right:14px;bottom:calc(14px + 2 * 40px + 7px + 10px + env(safe-area-inset-bottom));width:48px;height:48px}
+}
+@media(max-width:390px){
+  .site-header{padding:0 12px}
+  .logo-icon{width:38px;height:38px}
+  .logo-text{font-size:1.08rem}
+  .logo-sub{font-size:.66rem}
+  .clock-widget{padding-top:2px}
+  .clock-time{font-size:1.05rem}
+  .hero-art{display:none}
+  .gallery-section{padding-left:12px;padding-right:12px}
+  .filter-bar{padding-left:12px;padding-right:12px}
+  .card-title{font-size:.83rem}
+  .contact-dock{right:10px}
+}
+@media(hover:none){
   .card:hover{transform:none}
   .card:hover .card-media img,.card:hover .card-media video{transform:none}
 }
@@ -678,33 +847,43 @@ footer{text-align:center;padding:32px 24px;color:var(--text-muted);font-size:.8r
 <div class="season-deco" id="seasonDeco"></div>
 
 <!-- HEADER -->
-<header>
+<header class="site-header">
   <div class="header-inner">
-    <div class="clock-widget">
+    <a href="#heroSection" class="logo" aria-label="Thư Pháp Việt – Trang chủ">
+      <div class="logo-icon" aria-hidden="true">書</div>
+      <div class="logo-copy">
+        <span class="logo-text">Thư Pháp Việt</span>
+        <span class="logo-sub">Nghệ thuật chữ Quốc ngữ</span>
+      </div>
+    </a>
+
+    <div class="clock-widget" aria-label="Thời gian và lịch Việt Nam">
       <span class="clock-time" id="clockTime">00:00:00</span>
       <span class="clock-date" id="clockDate"></span>
       <span class="clock-lunar" id="clockLunar"></span>
     </div>
-    <div class="header-mid">
+
+    <div class="header-actions">
       <div class="search-wrap">
-        <input class="search-input" type="search" id="searchInput" placeholder="Tìm kiếm thư pháp… (vd: 'phuc', 'phúc')" autocomplete="off">
-        <span class="search-icon">🔍</span>
+        <input class="search-input" type="search" id="searchInput" placeholder="Tìm kiếm tác phẩm…" autocomplete="off" aria-label="Tìm kiếm tác phẩm">
+        <span class="search-icon material-symbols-rounded" aria-hidden="true">search</span>
+      </div>
+      <div class="account-wrap" id="accountWrap">
+        <button class="avatar-trigger" id="avatarTrigger" type="button" aria-label="Mở menu tài khoản" aria-haspopup="true" aria-expanded="false">
+          <span class="user-avatar" id="userAvatar"><span class="material-symbols-rounded" aria-hidden="true">person</span></span>
+        </button>
+        <div class="account-menu" id="accountMenu">
+          <div class="account-menu-heading">Tài khoản</div>
+          <div class="account-menu-caption">Khu vực dành cho quản trị viên</div>
+          <button class="account-menu-action" id="loginBtn" type="button">
+            <span class="material-symbols-rounded" id="accountActionIcon" aria-hidden="true">login</span>
+            <span id="userLabel">Đăng nhập quản trị</span>
+          </button>
+        </div>
       </div>
     </div>
-    <div class="header-right">
-      <a href="#" class="logo" style="text-decoration:none">
-        <div class="logo-icon">書</div>
-        <div>
-          <span class="logo-text">Thư Pháp Việt</span>
-          <span class="logo-sub">Nghệ thuật chữ Quốc ngữ</span>
-        </div>
-      </a>
-      <button class="user-pill" id="loginBtn">
-        <div class="user-avatar" id="userAvatar"><span class="material-symbols-rounded" aria-hidden="true">person</span></div>
-        <span id="userLabel">Đăng nhập</span>
-      </button>
-    </div>
   </div>
+
 </header>
 <div class="setup-notice" id="backendNotice" hidden role="status"></div>
 
@@ -733,7 +912,7 @@ footer{text-align:center;padding:32px 24px;color:var(--text-muted);font-size:.8r
 </div>
 
 <!-- GALLERY -->
-<main class="gallery-section">
+<main class="gallery-section" id="gallerySection">
   <h2 class="section-title">Bộ sưu tập tác phẩm</h2>
   <div class="gallery-grid" id="galleryGrid"></div>
   <div class="empty" id="emptyState" style="display:none">
@@ -765,6 +944,16 @@ footer{text-align:center;padding:32px 24px;color:var(--text-muted);font-size:.8r
     </div>
   </div>
   <button class="lightbox-nav lightbox-next" onclick="navLightbox(1,event)" id="lbNextWork">›</button>
+</div>
+
+<!-- CONTACT AUTHOR -->
+<div class="contact-dock" aria-label="Liên hệ tác giả">
+  <a class="contact-tile contact-facebook" id="contactFacebook" href="#" aria-label="Liên hệ qua Facebook" title="Facebook">
+    <span class="contact-facebook-mark" aria-hidden="true">f</span>
+  </a>
+  <a class="contact-tile contact-gmail" id="contactGmail" href="#" aria-label="Liên hệ qua Gmail" title="Gmail">
+    <span class="material-symbols-rounded" aria-hidden="true">mail</span>
+  </a>
 </div>
 
 <!-- ADMIN FAB -->
@@ -832,7 +1021,7 @@ footer{text-align:center;padding:32px 24px;color:var(--text-muted);font-size:.8r
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<footer>
+<footer id="siteFooter">
   <p>© 2025 Thư Pháp Việt · Lưu giữ và tôn vinh nghệ thuật thư pháp chữ Quốc ngữ</p>
   <p style="margin-top:4px">Mọi tác phẩm đều được bảo vệ bản quyền của tác giả</p>
 </footer>
@@ -930,6 +1119,12 @@ async function saveItems(items){
 let supabaseClient=null;
 let cloudMode=false;
 let isAdmin=false;
+
+// Điền thông tin liên hệ thật của tác giả tại đây trước khi publish.
+const AUTHOR_CONTACT = {
+  facebookUrl: '', // Ví dụ: https://www.facebook.com/ten-trang-ca-nhan
+  email: ''        // Địa chỉ Gmail của tác giả
+};
 
 function showBackendNotice(message){
   const notice=document.getElementById('backendNotice');
@@ -1225,7 +1420,29 @@ function filterType(type, btn){
 // ═══════════════════════════════════════
 // AUTH — Supabase Auth + server-verified admin membership
 // ═══════════════════════════════════════
+const accountWrap=document.getElementById('accountWrap');
+const avatarTrigger=document.getElementById('avatarTrigger');
+avatarTrigger.addEventListener('click',event=>{
+  event.stopPropagation();
+  const opened=accountWrap.classList.toggle('open');
+  avatarTrigger.setAttribute('aria-expanded',String(opened));
+});
+document.addEventListener('click',event=>{
+  if(!event.target.closest('#accountWrap')){
+    accountWrap.classList.remove('open');
+    avatarTrigger.setAttribute('aria-expanded','false');
+  }
+});
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape'){
+    accountWrap.classList.remove('open');
+    avatarTrigger.setAttribute('aria-expanded','false');
+  }
+});
 document.getElementById('loginBtn').addEventListener('click',()=>{
+  accountWrap.classList.remove('open');
+  avatarTrigger.setAttribute('aria-expanded','false');
+  document.getElementById('loginBtn').blur();
   if(isAdmin){logout();}else{openLogin();}
 });
 
@@ -1237,7 +1454,8 @@ function setAdminUI(enabled){
     ? '<span class="material-symbols-rounded" aria-hidden="true">admin_panel_settings</span>'
     : '<span class="material-symbols-rounded" aria-hidden="true">person</span>';
   avatar.setAttribute('aria-label',isAdmin?'Biểu tượng quản trị':'Tài khoản khách');
-  document.getElementById('userLabel').textContent=isAdmin?'Quản trị':'Đăng nhập';
+  document.getElementById('userLabel').textContent=isAdmin?'Đăng xuất quản trị':'Đăng nhập quản trị';
+  document.getElementById('accountActionIcon').textContent=isAdmin?'logout':'login';
   document.getElementById('adminFab').style.display=isAdmin?'grid':'none';
   renderGallery();
 }
@@ -1663,9 +1881,6 @@ function renderGallery(){
         }
         <div class="card-badge">${badgeLabel}</div>
         ${count>1?`<div class="card-media-count">📂 ${count} file</div>`:''}
-        <div class="card-overlay">
-          <button class="card-overlay-btn" onclick="openLightbox(${i},event)">🔍 Xem lớn</button>
-        </div>
       </div>
       <div class="card-body">
         <div class="card-title">${escHtml(item.title)}</div>
@@ -1933,6 +2148,27 @@ function makeSVG(char, color){
   </svg>`;
   return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
 }
+
+// ═══════════════════════════════════════
+// AUTHOR CONTACT SHORTCUTS
+// ═══════════════════════════════════════
+function initAuthorContact(){
+  const facebook=document.getElementById('contactFacebook');
+  const gmail=document.getElementById('contactGmail');
+  facebook.addEventListener('click',event=>{
+    event.preventDefault();
+    const url=AUTHOR_CONTACT.facebookUrl.trim();
+    if(!url){showToast('Hãy điền liên kết Facebook của tác giả trong AUTHOR_CONTACT.');return;}
+    window.open(url,'_blank','noopener,noreferrer');
+  });
+  gmail.addEventListener('click',event=>{
+    event.preventDefault();
+    const email=AUTHOR_CONTACT.email.trim();
+    if(!email){showToast('Hãy điền Gmail của tác giả trong AUTHOR_CONTACT.');return;}
+    window.open('https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(email),'_blank','noopener,noreferrer');
+  });
+}
+initAuthorContact();
 
 // ═══════════════════════════════════════
 // INIT
