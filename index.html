@@ -307,6 +307,9 @@ body.season-winter {
   border-radius:24px 24px 0 0;
   background:#000;
   max-width:92vw;
+  /* Cho phép thu nhỏ trong flex column của lightbox-content */
+  flex-shrink:1;
+  min-height:0;
 }
 .lb-slider-track{
   display:flex;
@@ -491,12 +494,45 @@ header{
 /* ── LIGHTBOX ── */
 .lightbox{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:transparent;backdrop-filter:blur(0px);transition:all 0.3s ease;pointer-events:none;opacity:0}
 .lightbox.open{background:rgba(0,0,0,.82);backdrop-filter:blur(18px);pointer-events:all;opacity:1}
-.lightbox-content{position:relative;max-width:92vw;max-height:92vh;transform:scale(0.88) translateY(20px);transition:transform 0.35s cubic-bezier(.4,0,.2,1);border-radius:24px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.6)}
+.lightbox-content{
+  position:relative;
+  max-width:92vw;
+  /* Tổng chiều cao = media + info, không vượt viewport */
+  max-height:92dvh;
+  transform:scale(0.88) translateY(20px);
+  transition:transform 0.35s cubic-bezier(.4,0,.2,1);
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,0,.6);
+  /* Flex column để media và info panel tự điều chỉnh */
+  display:flex;
+  flex-direction:column;
+}
 .lightbox.open .lightbox-content{transform:scale(1) translateY(0)}
-.lightbox-content img,.lightbox-content video{max-width:92vw;max-height:72vh;object-fit:contain;display:block;border-radius:24px 24px 0 0}
-.lightbox-info{background:var(--lb-info-bg);padding:18px 22px 20px;border-radius:0 0 24px 24px;max-height:30vh;overflow-y:auto;overscroll-behavior:contain}
+/* Media area: co lại nhường chỗ cho info, không bị crop */
+.lightbox-content img,.lightbox-content video{
+  max-width:92vw;
+  /* Dùng flex-shrink để ảnh thu nhỏ khi info panel chiếm chỗ */
+  min-height:0;
+  object-fit:contain;
+  display:block;
+  border-radius:24px 24px 0 0;
+}
+.lightbox-info{
+  background:var(--lb-info-bg);
+  padding:16px 22px 20px;
+  border-radius:0 0 24px 24px;
+  /* Cho phép cuộn nội dung dài, ẩn scrollbar trên mọi trình duyệt */
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  scrollbar-width:none;          /* Firefox */
+  -ms-overflow-style:none;       /* IE/Edge */
+  /* Chiều cao linh hoạt: tối thiểu vừa đủ chữ, tối đa không tràn màn */
+  max-height:min(38vh, 260px);
+}
+.lightbox-info::-webkit-scrollbar{display:none} /* Chrome/Safari */
 .lightbox-title{font-weight:700;font-size:1.05rem;color:var(--color-primary);margin-bottom:5px;line-height:1.3}
-.lightbox-desc{font-size:.84rem;color:var(--lb-desc-color);line-height:1.55;margin-bottom:8px}
+.lightbox-desc{font-size:.84rem;color:var(--lb-desc-color);line-height:1.6;margin-bottom:8px;white-space:pre-wrap}
 .lightbox-date{font-size:.74rem;color:var(--lb-date-color)}
 .lightbox-close{position:absolute;top:12px;right:12px;width:38px;height:38px;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:1.1rem;display:grid;place-items:center;transition:all var(--transition);z-index:10}
 .lightbox-close:hover{background:rgba(0,0,0,.85);transform:rotate(90deg) scale(1.1)}
@@ -844,6 +880,10 @@ footer{padding:34px var(--page-gutter);font-size:.86rem;font-weight:550;color:va
   .card:hover{transform:none}
   .card:hover .card-media img,.card:hover .card-media video{transform:none}
 }
+/* Ngăn iOS Safari tự zoom khi focus input (font < 16px kích hoạt zoom → trang bị giật) */
+@media(max-width:900px){
+  .search-input{font-size:16px !important}
+}
 
 
 
@@ -886,7 +926,7 @@ img,video,canvas,svg{max-width:100%}
     grid-column:1 / -1;grid-row:2;
     display:block;width:100%;max-width:none;min-width:0;
   }
-  .header-actions .search-input{width:100%;height:44px;padding-inline:14px 42px;font-size:16px}
+  .header-actions .search-input{width:100%;height:44px;padding-inline:14px 42px;font-size:16px !important}
   .header-actions>.account-wrap{
     grid-column:2;grid-row:1;
     justify-self:end;align-self:center;
@@ -1532,36 +1572,46 @@ function normalizeVi(str){
     .toLowerCase().trim();
 }
 
-// Search logic:
-// 1. Split query thành từng term (cách nhau bởi dấu cách)
-// 2. Với mỗi term: khớp prefix của từ trong TIÊU ĐỀ trước
-//    → gõ "h" khớp "hiếu", gõ "hieu" cũng khớp
-// 3. Nếu không khớp tiêu đề → thử khớp trong mô tả
-// 4. Tất cả terms phải khớp (AND logic)
+// ── TÌM KIẾM: CHỈ THEO TÊN TÁC PHẨM ──
+// Quy tắc:
+//  • Chỉ so khớp với tiêu đề (title) — tuyệt đối không tìm trong mô tả
+//  • Mỗi từ người dùng gõ phải là prefix của ít nhất 1 từ trong tiêu đề
+//    VD: gõ "hi"  → khớp "Hiếu", "Hình"  — KHÔNG khớp "Tập viết"
+//        gõ "tap" → khớp "Tập viết"       — KHÔNG khớp bất cứ thứ gì chứa "tap" trong mô tả
+//  • AND logic: nhiều từ → tất cả phải khớp
+//  • Không phân biệt dấu tiếng Việt: "hieu" = "Hiếu", "hieu" = "hiều"...
 function matchesArtworkSearch(item, query){
-  const terms = normalizeVi(query).split(/\s+/).filter(Boolean);
+  const qNorm = normalizeVi(query);
+  const terms  = qNorm.split(/\s+/).filter(Boolean);
   if(!terms.length) return true;
 
-  const titleNorm  = normalizeVi(item.title  || '');
-  const descNorm   = normalizeVi(item.desc   || '');
+  // Tách tiêu đề thành mảng từ (chỉ chữ-số, bỏ ký tự đặc biệt)
+  const titleWords = normalizeVi(item.title || '').split(/[^a-z0-9]+/).filter(Boolean);
+  if(!titleWords.length) return false;
 
-  // Tách tiêu đề thành mảng từ để kiểm tra prefix
-  const titleWords = titleNorm.split(/[^a-z0-9]+/).filter(Boolean);
-
-  return terms.every(term => {
-    // Khớp prefix: từ nào trong tiêu đề bắt đầu bằng term
-    const inTitle = titleWords.some(w => w.startsWith(term))
-                 || titleNorm.includes(term); // hoặc chuỗi liên tục
-    if(inTitle) return true;
-    // Fallback: khớp trong mô tả (chỉ khi tiêu đề không khớp)
-    const descWords = descNorm.split(/[^a-z0-9]+/).filter(Boolean);
-    return descWords.some(w => w.startsWith(term)) || descNorm.includes(term);
-  });
+  // Mỗi term người dùng gõ phải là prefix của ít nhất 1 từ trong tiêu đề
+  return terms.every(term =>
+    titleWords.some(word => word.startsWith(term))
+  );
 }
 
+// Ghi nhớ vị trí cuộn gallery trước khi render lại (tránh giật lên đầu trang trên mobile)
 document.getElementById('searchInput').addEventListener('input', function(){
   currentSearch = this.value;
+  // Giữ vị trí cuộn hiện tại — không để trang tự scroll lên đầu khi render
+  const galleryEl = document.getElementById('gallerySection');
+  const scrollY   = window.scrollY;
   renderGallery();
+  // Khôi phục vị trí cuộn sau khi DOM cập nhật xong
+  requestAnimationFrame(()=>{
+    window.scrollTo({top: scrollY, behavior: 'instant'});
+  });
+});
+
+// Trên mobile: khi focus ô tìm kiếm, giữ nguyên vị trí trang
+document.getElementById('searchInput').addEventListener('focus', function(){
+  const y = window.scrollY;
+  requestAnimationFrame(()=>{ window.scrollTo({top:y, behavior:'instant'}); });
 });
 
 // ═══════════════════════════════════════
