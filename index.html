@@ -2155,6 +2155,10 @@ function renderLightbox(){
   const item = visibleItems[lightboxIndex];
   const ml = getMediaList(item);
 
+  // Reset phần mô tả về đầu mỗi khi mở tác phẩm mới
+  const infoEl = document.getElementById('lightboxContent')?.querySelector('.lightbox-info');
+  if(infoEl) infoEl.scrollTop = 0;
+
   // Pause any existing videos
   document.querySelectorAll('#lbTrack video').forEach(v=>v.pause());
 
