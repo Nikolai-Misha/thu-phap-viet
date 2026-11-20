@@ -437,17 +437,19 @@ header{
 .user-avatar{width:28px;height:28px;border-radius:50%;background:var(--color-primary);color:var(--color-on-primary);display:grid;place-items:center;font-size:.8rem;font-weight:700}
 
 /* ── HERO ── */
-.hero{max-width:1400px;margin:0 auto;padding:48px 24px 32px;display:flex;align-items:center;gap:32px;flex-wrap:wrap}
-.hero-text{flex:1;min-width:260px}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--bg-surface-alt);color:var(--color-accent1);padding:6px 16px;border-radius:50px;font-size:.8rem;font-weight:500;margin-bottom:16px}
-.hero-title{font-family:var(--font-display);font-size:clamp(2rem,4vw,3.2rem);font-weight:700;line-height:1.15;color:var(--color-primary);margin-bottom:12px}
-.hero-sub{color:var(--text-secondary);font-size:1rem;line-height:1.6;max-width:480px}
-.hero-stats{display:flex;gap:24px;margin-top:24px;flex-wrap:wrap}
+.hero{max-width:1400px;margin:0 auto;padding:clamp(20px,4vw,40px) 24px clamp(16px,3vw,28px);display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.hero-text{flex:1;min-width:220px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--bg-surface-alt);color:var(--color-accent1);padding:5px 14px;border-radius:50px;font-size:.78rem;font-weight:500;margin-bottom:12px}
+.hero-title{font-family:var(--font-display);font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:700;line-height:1.15;color:var(--color-primary);margin-bottom:10px}
+.hero-sub{color:var(--text-secondary);font-size:.92rem;line-height:1.55;max-width:480px}
+.hero-stats{display:flex;gap:20px;margin-top:16px;flex-wrap:wrap}
 .stat{text-align:center}
-.stat-num{font-size:1.6rem;font-weight:700;color:var(--color-primary);display:block}
-.stat-label{font-size:.75rem;color:var(--text-muted)}
-.hero-art{width:160px;height:160px;border-radius:24px;background:linear-gradient(135deg,var(--color-primary),var(--color-accent1));display:grid;place-items:center;font-size:5rem;box-shadow:0 12px 40px var(--color-shadow-lg);animation:heroFloat 4s ease-in-out infinite;flex-shrink:0}
-@keyframes heroFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.stat-num{font-size:1.4rem;font-weight:700;color:var(--color-primary);display:block}
+.stat-label{font-size:.72rem;color:var(--text-muted)}
+.hero-art{width:clamp(90px,12vw,150px);height:clamp(90px,12vw,150px);border-radius:20px;background:linear-gradient(135deg,var(--color-primary),var(--color-accent1));display:grid;place-items:center;font-size:clamp(2.8rem,7vw,4.5rem);box-shadow:0 10px 32px var(--color-shadow-lg);animation:heroFloat 4s ease-in-out infinite;flex-shrink:0}
+@keyframes heroFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+/* Hide hero-art on small screens to save space */
+@media(max-width:600px){.hero-art{display:none}}
 
 /* ── FILTER CHIPS ── */
 .filter-bar{max-width:1400px;margin:0 auto;padding:0 24px 24px;display:flex;gap:10px;flex-wrap:wrap}
@@ -492,10 +494,10 @@ header{
 .lightbox-content{position:relative;max-width:92vw;max-height:92vh;transform:scale(0.88) translateY(20px);transition:transform 0.35s cubic-bezier(.4,0,.2,1);border-radius:24px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.6)}
 .lightbox.open .lightbox-content{transform:scale(1) translateY(0)}
 .lightbox-content img,.lightbox-content video{max-width:92vw;max-height:72vh;object-fit:contain;display:block;border-radius:24px 24px 0 0}
-.lightbox-info{background:var(--lb-info-bg);padding:20px 24px;border-radius:0 0 24px 24px}
-.lightbox-title{font-weight:700;font-size:1.1rem;color:var(--color-primary);margin-bottom:4px}
-.lightbox-desc{font-size:.85rem;color:var(--lb-desc-color);line-height:1.5;margin-bottom:8px}
-.lightbox-date{font-size:.75rem;color:var(--lb-date-color)}
+.lightbox-info{background:var(--lb-info-bg);padding:18px 22px 20px;border-radius:0 0 24px 24px;max-height:30vh;overflow-y:auto;overscroll-behavior:contain}
+.lightbox-title{font-weight:700;font-size:1.05rem;color:var(--color-primary);margin-bottom:5px;line-height:1.3}
+.lightbox-desc{font-size:.84rem;color:var(--lb-desc-color);line-height:1.55;margin-bottom:8px}
+.lightbox-date{font-size:.74rem;color:var(--lb-date-color)}
 .lightbox-close{position:absolute;top:12px;right:12px;width:38px;height:38px;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:1.1rem;display:grid;place-items:center;transition:all var(--transition);z-index:10}
 .lightbox-close:hover{background:rgba(0,0,0,.85);transform:rotate(90deg) scale(1.1)}
 .lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);color:#fff;font-size:1.3rem;cursor:pointer;display:grid;place-items:center;transition:all var(--transition);z-index:10}
@@ -1530,17 +1532,31 @@ function normalizeVi(str){
     .toLowerCase().trim();
 }
 
-// Match complete words, not arbitrary character fragments inside other words.
-// Accents are ignored, and every search term must occur as a whole word.
+// Search logic:
+// 1. Split query thành từng term (cách nhau bởi dấu cách)
+// 2. Với mỗi term: khớp prefix của từ trong TIÊU ĐỀ trước
+//    → gõ "h" khớp "hiếu", gõ "hieu" cũng khớp
+// 3. Nếu không khớp tiêu đề → thử khớp trong mô tả
+// 4. Tất cả terms phải khớp (AND logic)
 function matchesArtworkSearch(item, query){
-  const terms = normalizeVi(query).split(/[^a-z0-9]+/).filter(Boolean);
+  const terms = normalizeVi(query).split(/\s+/).filter(Boolean);
   if(!terms.length) return true;
 
-  const searchableText = normalizeVi(
-    [item.title, item.desc].filter(Boolean).join(' ')
-  );
-  const words = searchableText.split(/[^a-z0-9]+/).filter(Boolean);
-  return terms.every(term => words.includes(term));
+  const titleNorm  = normalizeVi(item.title  || '');
+  const descNorm   = normalizeVi(item.desc   || '');
+
+  // Tách tiêu đề thành mảng từ để kiểm tra prefix
+  const titleWords = titleNorm.split(/[^a-z0-9]+/).filter(Boolean);
+
+  return terms.every(term => {
+    // Khớp prefix: từ nào trong tiêu đề bắt đầu bằng term
+    const inTitle = titleWords.some(w => w.startsWith(term))
+                 || titleNorm.includes(term); // hoặc chuỗi liên tục
+    if(inTitle) return true;
+    // Fallback: khớp trong mô tả (chỉ khi tiêu đề không khớp)
+    const descWords = descNorm.split(/[^a-z0-9]+/).filter(Boolean);
+    return descWords.some(w => w.startsWith(term)) || descNorm.includes(term);
+  });
 }
 
 document.getElementById('searchInput').addEventListener('input', function(){
@@ -1783,12 +1799,15 @@ function handleDrop(e){
 async function addFiles(files){
   if(!isAdmin || !cloudMode){showToast('⛔ Chỉ Admin đã xác thực mới được tải file lên.');return;}
   let tooLarge=0,unsupported=0;
-  const allowedTypes=new Set(['image/jpeg','image/png','image/gif','image/webp','video/mp4','video/webm']);
+  const allowedTypes=new Set(['image/jpeg','image/png','image/gif','image/webp','video/mp4','video/webm','video/quicktime']);
   for(const file of files){
-    if(!allowedTypes.has(file.type)){unsupported++;continue;}
+    const extension=(file.name.split('.').pop()||'').toLowerCase();
+    const isMov=extension==='mov';
+    const isVideo=file.type.startsWith('video/')||isMov;
+    if(!allowedTypes.has(file.type) && !isMov){unsupported++;continue;}
     if(file.size>52428800){tooLarge++;continue;}
     selectedMedia.push({
-      file,type:file.type.startsWith('video/')?'video':'image',name:file.name,
+      file,type:isVideo?'video':'image',name:file.name,
       role:selectedMedia.some(m=>m.role==='final')?'process':'final',
       previewUrl:URL.createObjectURL(file),existing:false
     });
@@ -1855,7 +1874,7 @@ function displayDateToISO(value){
 function fileExtension(file){
   const ext=(file.name.split('.').pop()||'').toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,8);
   if(ext)return ext;
-  return ({'image/jpeg':'jpg','image/png':'png','image/gif':'gif','image/webp':'webp','video/mp4':'mp4','video/webm':'webm'})[file.type]||'bin';
+  return ({'image/jpeg':'jpg','image/png':'png','image/gif':'gif','image/webp':'webp','video/mp4':'mp4','video/webm':'webm','video/quicktime':'mov'})[file.type]||((file.name.split('.').pop()||'').toLowerCase()==='mov'?'mov':'bin');
 }
 
 async function submitUpload(){
@@ -1883,7 +1902,7 @@ async function submitUpload(){
       if(!media.file)throw new Error('Một tệp media không hợp lệ. Vui lòng chọn lại tệp đó.');
       const path=`${artworkId}/${crypto.randomUUID()}.${fileExtension(media.file)}`;
       const {error:uploadError}=await supabaseClient.storage.from('artworks').upload(path,media.file,{
-        cacheControl:'3600',upsert:false,contentType:media.file.type
+        cacheControl:'3600',upsert:false,contentType:media.file.type.startsWith('video/')?media.file.type:(fileExtension(media.file)==='mov'?'video/quicktime':(media.file.type||'application/octet-stream'))
       });
       if(uploadError)throw uploadError;
       uploadedPaths.push(path);
@@ -2197,7 +2216,6 @@ document.addEventListener('keydown',e=>{
   const lb=document.getElementById('lightbox');
   if(!lb.classList.contains('open')) return;
   if(e.key==='Escape'){ closeLightbox(); return; }
-  // Left/Right: navigate media slides first, then works
   if(e.key==='ArrowLeft'){
     const ml=getMediaList(visibleItems[lightboxIndex]);
     if(lbMediaIndex>0){ lbMediaIndex--; goToMedia(lbMediaIndex); }
@@ -2209,6 +2227,43 @@ document.addEventListener('keydown',e=>{
     else navLightbox(1);
   }
 });
+
+// ── TOUCH SWIPE for lightbox ──
+(function initLightboxSwipe(){
+  const lb = document.getElementById('lightbox');
+  let touchStartX = 0, touchStartY = 0, touchStartTime = 0;
+  const SWIPE_THRESHOLD = 48;   // px ngang tối thiểu
+  const ANGLE_LIMIT     = 0.6;  // tỉ lệ dọc/ngang tối đa (< 1 → chủ yếu ngang)
+  const TIME_LIMIT      = 400;  // ms tối đa
+
+  lb.addEventListener('touchstart', e=>{
+    if(!lb.classList.contains('open')) return;
+    touchStartX    = e.touches[0].clientX;
+    touchStartY    = e.touches[0].clientY;
+    touchStartTime = Date.now();
+  }, {passive:true});
+
+  lb.addEventListener('touchend', e=>{
+    if(!lb.classList.contains('open')) return;
+    const dx   = e.changedTouches[0].clientX - touchStartX;
+    const dy   = e.changedTouches[0].clientY - touchStartY;
+    const dt   = Date.now() - touchStartTime;
+    if(dt > TIME_LIMIT) return;                           // quá chậm
+    if(Math.abs(dx) < SWIPE_THRESHOLD) return;            // quá ngắn
+    if(Math.abs(dy) / Math.abs(dx) > ANGLE_LIMIT) return; // chủ yếu dọc
+
+    const ml = getMediaList(visibleItems[lightboxIndex]);
+    if(dx < 0){
+      // vuốt trái → slide tiếp theo hoặc tác phẩm tiếp
+      if(lbMediaIndex < ml.length-1){ lbMediaIndex++; goToMedia(lbMediaIndex); }
+      else navLightbox(1);
+    } else {
+      // vuốt phải → slide trước hoặc tác phẩm trước
+      if(lbMediaIndex > 0){ lbMediaIndex--; goToMedia(lbMediaIndex); }
+      else navLightbox(-1);
+    }
+  }, {passive:true});
+})();
 
 // ═══════════════════════════════════════
 // STATS
