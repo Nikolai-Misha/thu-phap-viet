@@ -1035,7 +1035,7 @@ img,video,canvas,svg{max-width:100%}
 <!-- HEADER -->
 <header class="site-header">
   <div class="header-inner">
-    <a class="logo" aria-label="Thư Pháp Việt – Trang chủ">
+    <a href="#heroSection" class="logo" aria-label="Thư Pháp Việt – Trang chủ">
       <div class="logo-icon" aria-hidden="true">書</div>
       <div class="logo-copy">
         <span class="logo-text">Thư Pháp Việt</span>
@@ -1459,17 +1459,6 @@ function solarToLunar(year,month,day){
   if(lunarMonth>12) lunarMonth-=12;
   if(lunarMonth>=11 && diff<4) lunarYear-=1;
   return {day:lunarDay,month:lunarMonth,year:lunarYear,leap:lunarLeap===1};
-}
-
-function solarDisplayToLunar(value){
-  if(!value) return '';
-  const parts=String(value).split('/');
-  if(parts.length!==3) return value;
-  const [day,month,year]=parts.map(Number);
-  if(!day||!month||!year) return value;
-  const lunar=solarToLunar(year,month,day);
-  const leapLabel=lunar.leap?' nhuận':'';
-  return `${String(lunar.day).padStart(2,'0')}/${String(lunar.month).padStart(2,'0')}/${lunar.year}${leapLabel} Âm Lịch`;
 }
 
 function getNewMoon(k){
@@ -2200,11 +2189,13 @@ function lockPageScroll(){
 
 function unlockPageScroll(){
   if(!lightboxBodyStyles)return;
-  Object.assign(document.body.style,lightboxBodyStyles);
+  const savedStyles=lightboxBodyStyles;
+  const htmlOverflow=savedStyles.htmlOverflow;
+  delete savedStyles.htmlOverflow;
   lightboxBodyStyles=null;
-  document.documentElement.style.overflow=lightboxBodyStyles.htmlOverflow;
-  delete lightboxBodyStyles.htmlOverflow;
-  window.scrollTo(0,lightboxScrollY);
+  Object.assign(document.body.style,savedStyles);
+  document.documentElement.style.overflow=htmlOverflow;
+  window.scrollTo({top:lightboxScrollY,behavior:'instant'});
 }
 
 function openLightbox(idx, e){
@@ -2260,13 +2251,18 @@ function renderLightbox(){
 
   // Info
   const completionMarkup = item.time
-    ? ` <span class="lightbox-completion">· Hoàn thiện: <strong>${escHtml(solarDisplayToLunar(item.time))}</strong></span>`
+    ? ` <span class="lightbox-completion">· Hoàn thiện: <strong>${escHtml(item.time)}</strong></span>`
     : '';
   document.getElementById('lbTitle').innerHTML = `${escHtml(item.title)}${completionMarkup}`;
   document.getElementById('lbDesc').textContent = item.desc||'';
-  const dateStr = item.createdAt ? '📅 Đăng: '+item.createdAt : '';
-  const countStr = ml.length>1 ? ` · 📂 ${ml.length} file` : '';
-  document.getElementById('lbDate').textContent = dateStr + countStr;
+  const lbDateEl = document.getElementById('lbDate');
+  if(ml.length > 1){
+    lbDateEl.textContent = `📂 ${ml.length} file`;
+    lbDateEl.style.display = '';
+  }else{
+    lbDateEl.textContent = '';
+    lbDateEl.style.display = 'none';
+  }
   document.getElementById('lbRandomProcess').style.display = ml.some(m=>m.role==='process') ? 'inline-flex' : 'none';
 
   goToMediaSlide(0);
