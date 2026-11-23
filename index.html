@@ -491,8 +491,19 @@ header{
 .card-type.img{background:var(--tag-img-bg);color:var(--tag-img-text)}
 .card-type.vid{background:var(--tag-vid-bg);color:var(--tag-vid-text)}
 
+/* ── THỬ NGHIỆM MUA HÀNG ── */
+.test-commerce{display:flex;align-items:center;justify-content:flex-end;gap:6px;margin-top:9px}
+.test-commerce-label{margin-right:auto;font-size:.58rem;font-weight:800;letter-spacing:.04em;color:var(--text-faint)}
+.test-commerce-btn{width:30px;height:30px;min-width:30px;border:1px solid var(--color-outline);border-radius:10px;background:var(--bg-surface-alt);color:var(--color-primary);display:grid;place-items:center;cursor:pointer;font:inherit;transition:background var(--transition),transform var(--transition),border-color var(--transition)}
+.test-commerce-btn .material-symbols-rounded{font-size:18px;line-height:1}
+.test-commerce-btn:hover{background:var(--color-primary-dim);border-color:var(--color-primary);transform:translateY(-1px)}
+.test-commerce-btn:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
+.lightbox-commerce{display:flex;align-items:center;gap:8px;margin-top:12px}
+.lightbox-commerce .test-commerce-label{margin-right:auto}
+.lightbox-commerce .test-commerce-btn{width:36px;height:36px}
+
 /* ── LIGHTBOX ── */
-.lightbox{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:transparent;backdrop-filter:blur(0px);transition:all 0.3s ease;pointer-events:none;opacity:0}
+.lightbox{position:fixed;inset:0;overscroll-behavior:contain;z-index:1000;display:flex;align-items:center;justify-content:center;background:transparent;backdrop-filter:blur(0px);transition:all 0.3s ease;pointer-events:none;opacity:0}
 .lightbox.open{background:rgba(0,0,0,.82);backdrop-filter:blur(18px);pointer-events:all;opacity:1}
 .lightbox-content{
   position:relative;
@@ -503,6 +514,7 @@ header{
   transition:transform 0.35s cubic-bezier(.4,0,.2,1);
   border-radius:24px;
   overflow:hidden;
+  overscroll-behavior:contain;
   box-shadow:0 32px 80px rgba(0,0,0,.6);
   /* Flex column để media và info panel tự điều chỉnh */
   display:flex;
@@ -525,6 +537,8 @@ header{
   /* Cho phép cuộn nội dung dài, ẩn scrollbar trên mọi trình duyệt */
   overflow-y:auto;
   overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
   scrollbar-width:none;          /* Firefox */
   -ms-overflow-style:none;       /* IE/Edge */
   /* Chiều cao linh hoạt: tối thiểu vừa đủ chữ, tối đa không tràn màn */
@@ -532,6 +546,8 @@ header{
 }
 .lightbox-info::-webkit-scrollbar{display:none} /* Chrome/Safari */
 .lightbox-title{font-weight:700;font-size:1.05rem;color:var(--color-primary);margin-bottom:5px;line-height:1.3}
+.lightbox-completion{display:inline;font-size:.84em;font-weight:600;color:var(--text-secondary)}
+.lightbox-completion strong{font-weight:800;color:var(--color-primary);white-space:nowrap}
 .lightbox-desc{font-size:.84rem;color:var(--lb-desc-color);line-height:1.6;margin-bottom:8px;white-space:pre-wrap}
 .lightbox-date{font-size:.74rem;color:var(--lb-date-color)}
 .lightbox-close{position:absolute;top:12px;right:12px;width:38px;height:38px;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:1.1rem;display:grid;place-items:center;transition:all var(--transition);z-index:10}
@@ -1019,7 +1035,7 @@ img,video,canvas,svg{max-width:100%}
 <!-- HEADER -->
 <header class="site-header">
   <div class="header-inner">
-    <a href="#heroSection" class="logo" aria-label="Thư Pháp Việt – Trang chủ">
+    <a class="logo" aria-label="Thư Pháp Việt – Trang chủ">
       <div class="logo-icon" aria-hidden="true">書</div>
       <div class="logo-copy">
         <span class="logo-text">Thư Pháp Việt</span>
@@ -1110,6 +1126,11 @@ img,video,canvas,svg{max-width:100%}
       <div class="lightbox-title" id="lbTitle"></div>
       <div class="lightbox-desc" id="lbDesc"></div>
       <div class="lightbox-date" id="lbDate"></div>
+      <div class="lightbox-commerce">
+        <span class="test-commerce-label">[THỬ NGHIỆM]</span>
+        <button type="button" class="test-commerce-btn" onclick="addToTestCart(visibleItems[lightboxIndex]?.id,event)" title="Thêm vào giỏ hàng (thử nghiệm)" aria-label="Thêm vào giỏ hàng (thử nghiệm)"><span class="material-symbols-rounded" aria-hidden="true">add_shopping_cart</span></button>
+        <button type="button" class="test-commerce-btn" onclick="startTestPurchase(visibleItems[lightboxIndex]?.id,event)" title="Mua tác phẩm (thử nghiệm)" aria-label="Mua tác phẩm (thử nghiệm)"><span class="material-symbols-rounded" aria-hidden="true">shopping_bag</span></button>
+      </div>
       <button class="btn btn-tonal lb-random-btn" id="lbRandomProcess" onclick="showRandomProcess(event)" style="display:none">🎲 Xem ngẫu nhiên quá trình</button>
     </div>
   </div>
@@ -1389,7 +1410,7 @@ function updateClock(){
     `${VI_DAYS[now.getDay()]}, ${now.getDate()} tháng ${now.getMonth()+1} năm ${now.getFullYear()}`;
   const lunar = solarToLunar(now.getFullYear(),now.getMonth()+1,now.getDate());
   const leapLabel = lunar.leap ? ' nhuận' : '';
-  document.getElementById('clockLunar').textContent = `🌙 ${lunar.day} tháng ${lunar.month}${leapLabel} năm ${lunar.year} AL`;
+  document.getElementById('clockLunar').textContent = `🌙 ${lunar.day} tháng ${lunar.month}${leapLabel} năm ${lunar.year} Âm Lịch`;
 }
 setInterval(updateClock,1000);
 updateClock();
@@ -1438,6 +1459,17 @@ function solarToLunar(year,month,day){
   if(lunarMonth>12) lunarMonth-=12;
   if(lunarMonth>=11 && diff<4) lunarYear-=1;
   return {day:lunarDay,month:lunarMonth,year:lunarYear,leap:lunarLeap===1};
+}
+
+function solarDisplayToLunar(value){
+  if(!value) return '';
+  const parts=String(value).split('/');
+  if(parts.length!==3) return value;
+  const [day,month,year]=parts.map(Number);
+  if(!day||!month||!year) return value;
+  const lunar=solarToLunar(year,month,day);
+  const leapLabel=lunar.leap?' nhuận':'';
+  return `${String(lunar.day).padStart(2,'0')}/${String(lunar.month).padStart(2,'0')}/${lunar.year}${leapLabel} Âm Lịch`;
 }
 
 function getNewMoon(k){
@@ -1566,33 +1598,21 @@ function spawnDecos(emojis){
 // SEARCH (normalize diacritics)
 // ═══════════════════════════════════════
 function normalizeVi(str){
-  return String(str || '').normalize('NFD')
-    .replace(/[\u0300-\u036f]/g,'')
-    .replace(/đ/g,'d').replace(/Đ/g,'D')
-    .toLowerCase().trim();
+  return String(str ?? '').normalize('NFD')
+    .replace(/\p{Diacritic}/gu,'')
+    .replace(/[đĐ]/g,'d')
+    .toLocaleLowerCase('vi')
+    .trim();
 }
 
-// ── TÌM KIẾM: CHỈ THEO TÊN TÁC PHẨM ──
-// Quy tắc:
-//  • Chỉ so khớp với tiêu đề (title) — tuyệt đối không tìm trong mô tả
-//  • Mỗi từ người dùng gõ phải là prefix của ít nhất 1 từ trong tiêu đề
-//    VD: gõ "hi"  → khớp "Hiếu", "Hình"  — KHÔNG khớp "Tập viết"
-//        gõ "tap" → khớp "Tập viết"       — KHÔNG khớp bất cứ thứ gì chứa "tap" trong mô tả
-//  • AND logic: nhiều từ → tất cả phải khớp
-//  • Không phân biệt dấu tiếng Việt: "hieu" = "Hiếu", "hieu" = "hiều"...
+// Chỉ tìm theo tên tác phẩm. Mỗi cụm/từ nhập vào phải là phần đầu
+// của ít nhất một từ trong tiêu đề; không dò trong mô tả hay metadata.
 function matchesArtworkSearch(item, query){
-  const qNorm = normalizeVi(query);
-  const terms  = qNorm.split(/\s+/).filter(Boolean);
+  const terms = normalizeVi(query).split(/\s+/).filter(Boolean);
   if(!terms.length) return true;
-
-  // Tách tiêu đề thành mảng từ (chỉ chữ-số, bỏ ký tự đặc biệt)
-  const titleWords = normalizeVi(item.title || '').split(/[^a-z0-9]+/).filter(Boolean);
+  const titleWords = normalizeVi(item?.title).match(/[a-z0-9]+/g) || [];
   if(!titleWords.length) return false;
-
-  // Mỗi term người dùng gõ phải là prefix của ít nhất 1 từ trong tiêu đề
-  return terms.every(term =>
-    titleWords.some(word => word.startsWith(term))
-  );
+  return terms.every(term => titleWords.some(word => word.startsWith(term)));
 }
 
 // Ghi nhớ vị trí cuộn gallery trước khi render lại (tránh giật lên đầu trang trên mobile)
@@ -2034,6 +2054,26 @@ function getMediaList(item){
   }).map(({originalIndex,...m})=>m);
 }
 
+// Giỏ hàng thử nghiệm chỉ lưu trong bộ nhớ phiên; chưa tạo đơn hàng/thanh toán.
+const testCart = new Set();
+
+function addToTestCart(id,e){
+  if(e)e.stopPropagation();
+  if(id==null)return;
+  const item=getItems().find(entry=>String(entry.id)===String(id));
+  if(!item)return;
+  if(testCart.has(String(id))){showToast('🛒 Tác phẩm này đã có trong giỏ hàng thử nghiệm.');return;}
+  testCart.add(String(id));
+  showToast(`🛒 Đã thêm “${item.title}” vào giỏ hàng thử nghiệm. Chưa có thanh toán.`);
+}
+
+function startTestPurchase(id,e){
+  if(e)e.stopPropagation();
+  const item=getItems().find(entry=>String(entry.id)===String(id));
+  if(!item)return;
+  showToast(`🧪 “${item.title}” — chức năng mua hàng đang ở chế độ thử nghiệm, chưa phát sinh đơn hàng.`);
+}
+
 function renderGallery(){
   const items = getItems();
   const q = normalizeVi(currentSearch);
@@ -2099,6 +2139,11 @@ function renderGallery(){
           <span class="card-date">${item.time?'📅 '+item.time:'📅 '+item.createdAt}</span>
           <span class="card-type ${typeClass}">${typeLabel}</span>
         </div>
+        <div class="test-commerce">
+          <span class="test-commerce-label">[THỬ NGHIỆM]</span>
+          <button type="button" class="test-commerce-btn" onclick="addToTestCart('${escHtml(String(item.id))}',event)" title="Thêm vào giỏ hàng (thử nghiệm)" aria-label="Thêm vào giỏ hàng (thử nghiệm)"><span class="material-symbols-rounded" aria-hidden="true">add_shopping_cart</span></button>
+          <button type="button" class="test-commerce-btn" onclick="startTestPurchase('${escHtml(String(item.id))}',event)" title="Mua tác phẩm (thử nghiệm)" aria-label="Mua tác phẩm (thử nghiệm)"><span class="material-symbols-rounded" aria-hidden="true">shopping_bag</span></button>
+        </div>
         ${isAdmin?`<div class="admin-card-actions">
           <button class="admin-card-btn admin-card-edit" onclick="openEditModal('${escHtml(String(item.id))}',event)">✏️ Sửa</button>
           <button class="admin-card-btn admin-card-delete" onclick="deleteItem('${escHtml(String(item.id))}',event)">🗑 Gỡ</button>
@@ -2140,6 +2185,27 @@ async function deleteItem(id,e){
 // LIGHTBOX — with internal media slider
 // ═══════════════════════════════════════
 let lbMediaIndex = 0; // current slide within a product's media
+let lightboxScrollY = 0;
+let lightboxBodyStyles = null;
+
+function lockPageScroll(){
+  if(lightboxBodyStyles)return;
+  lightboxScrollY=window.scrollY||window.pageYOffset||0;
+  const body=document.body;
+  lightboxBodyStyles={position:body.style.position,top:body.style.top,left:body.style.left,right:body.style.right,width:body.style.width,overflow:body.style.overflow,htmlOverflow:document.documentElement.style.overflow};
+  body.style.position='fixed';body.style.top=`-${lightboxScrollY}px`;
+  body.style.left='0';body.style.right='0';body.style.width='100%';body.style.overflow='hidden';
+  document.documentElement.style.overflow='hidden';
+}
+
+function unlockPageScroll(){
+  if(!lightboxBodyStyles)return;
+  Object.assign(document.body.style,lightboxBodyStyles);
+  lightboxBodyStyles=null;
+  document.documentElement.style.overflow=lightboxBodyStyles.htmlOverflow;
+  delete lightboxBodyStyles.htmlOverflow;
+  window.scrollTo(0,lightboxScrollY);
+}
 
 function openLightbox(idx, e){
   if(e) e.stopPropagation();
@@ -2148,7 +2214,7 @@ function openLightbox(idx, e){
   lbMediaIndex = 0;
   renderLightbox();
   document.getElementById('lightbox').classList.add('open');
-  document.body.style.overflow='hidden';
+  lockPageScroll();
 }
 
 function renderLightbox(){
@@ -2193,9 +2259,12 @@ function renderLightbox(){
   document.getElementById('lbNextWork').style.opacity = lightboxIndex===visibleItems.length-1 ? '0.3':'1';
 
   // Info
-  document.getElementById('lbTitle').textContent = item.title;
+  const completionMarkup = item.time
+    ? ` <span class="lightbox-completion">· Hoàn thiện: <strong>${escHtml(solarDisplayToLunar(item.time))}</strong></span>`
+    : '';
+  document.getElementById('lbTitle').innerHTML = `${escHtml(item.title)}${completionMarkup}`;
   document.getElementById('lbDesc').textContent = item.desc||'';
-  const dateStr = item.time ? '📅 Hoàn thiện: '+item.time : '📅 Đăng: '+item.createdAt;
+  const dateStr = item.createdAt ? '📅 Đăng: '+item.createdAt : '';
   const countStr = ml.length>1 ? ` · 📂 ${ml.length} file` : '';
   document.getElementById('lbDate').textContent = dateStr + countStr;
   document.getElementById('lbRandomProcess').style.display = ml.some(m=>m.role==='process') ? 'inline-flex' : 'none';
@@ -2254,7 +2323,7 @@ function closeLightbox(e){
   if(e && e.target!==document.getElementById('lightbox') && e.target.closest('.lightbox-content')) return;
   document.querySelectorAll('#lbTrack video').forEach(v=>v.pause());
   document.getElementById('lightbox').classList.remove('open');
-  document.body.style.overflow='';
+  unlockPageScroll();
 }
 
 function navLightbox(dir, e){
@@ -2282,6 +2351,22 @@ document.addEventListener('keydown',e=>{
   }
 });
 
+// Khóa cuộn nền trên desktop và thiết bị cảm ứng; chỉ vùng mô tả được cuộn dọc.
+(function initLightboxScrollContainment(){
+  const lb=document.getElementById('lightbox');
+  let lastTouchY=0;
+  lb.addEventListener('touchstart',e=>{if(lb.classList.contains('open')&&e.touches.length)lastTouchY=e.touches[0].clientY;},{passive:true});
+  lb.addEventListener('touchmove',e=>{
+    if(!lb.classList.contains('open'))return;
+    const info=e.target.closest('.lightbox-info');
+    if(!info){e.preventDefault();return;}
+    const currentY=e.touches[0].clientY,deltaY=currentY-lastTouchY;lastTouchY=currentY;
+    const atTop=info.scrollTop<=0,atBottom=info.scrollTop+info.clientHeight>=info.scrollHeight-1;
+    if((atTop&&deltaY>0)||(atBottom&&deltaY<0)||info.scrollHeight<=info.clientHeight)e.preventDefault();
+  },{passive:false});
+  lb.addEventListener('wheel',e=>{if(lb.classList.contains('open')&&!e.target.closest('.lightbox-info'))e.preventDefault();},{passive:false});
+})();
+
 // ── TOUCH SWIPE for lightbox ──
 (function initLightboxSwipe(){
   const lb = document.getElementById('lightbox');
@@ -2289,16 +2374,19 @@ document.addEventListener('keydown',e=>{
   const SWIPE_THRESHOLD = 48;   // px ngang tối thiểu
   const ANGLE_LIMIT     = 0.6;  // tỉ lệ dọc/ngang tối đa (< 1 → chủ yếu ngang)
   const TIME_LIMIT      = 400;  // ms tối đa
+  let swipeStartedInMedia=false;
 
   lb.addEventListener('touchstart', e=>{
     if(!lb.classList.contains('open')) return;
+    swipeStartedInMedia=!!e.target.closest('.lb-slider');
     touchStartX    = e.touches[0].clientX;
     touchStartY    = e.touches[0].clientY;
     touchStartTime = Date.now();
   }, {passive:true});
 
   lb.addEventListener('touchend', e=>{
-    if(!lb.classList.contains('open')) return;
+    if(!lb.classList.contains('open')||!swipeStartedInMedia) return;
+    swipeStartedInMedia=false;
     const dx   = e.changedTouches[0].clientX - touchStartX;
     const dy   = e.changedTouches[0].clientY - touchStartY;
     const dt   = Date.now() - touchStartTime;
